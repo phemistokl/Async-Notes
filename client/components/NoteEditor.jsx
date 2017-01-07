@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { addNote } from '../actions';
 
 import './NoteEditor.css';
 
-@connect(undefined, { addNote })
+const DEFAULT_COLOR = 'yellow';
+
 export default class NoteEditor extends Component {
     constructor(props) {
         super(props);
@@ -26,9 +24,11 @@ export default class NoteEditor extends Component {
     }
 
     handleNoteAdd() {
-        this.props.addNote(this.state.text);
+        const newNote = {
+            text: this.state.text
+        };
 
-        //this.props.addNote(newNote);
+        this.props.onNoteAdd(newNote);
 
         this.resetState();
     }

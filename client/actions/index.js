@@ -1,17 +1,31 @@
+import api from '../api';
+
 const DEFAULT_COLOR = 'yellow';
 
-export const addNote = text => {
-  return {
-    type: 'ADD_NOTE',
-    id: Date.now(),
-    color: DEFAULT_COLOR,
-    text
-  };
-};
+export const fetchNotesRequest = () => ({
+    type: 'FETCH_NOTES_REQUES'
+});
 
-export const deleteNote = id => {
-  return {
-    type: 'DELETE_NOTE',
-    id
-  };
-};
+export const fetchNotesSuccess = ({ data }) => ({
+    notes: data,
+    type: 'FETCH_NOTES_SUCCESS'
+});
+
+export const loadNotes = () => dispatch => {
+    dispatch(fetchNotesRequest());
+
+    return api.listNotes()
+    .then(data => dispatch(fetchNotesSuccess(data)));
+}
+
+export const createNote = (note) => {
+    return api.createNote(note)
+    .then(() => loadNotes())
+    .catch(err => console.error(err));
+}
+
+export const deleteNote = (noteId) => {
+    return api.deleteNote(noteId)
+    .then(() => loadNotes())
+    .catch(err => console.error(err));
+}

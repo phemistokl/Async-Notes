@@ -3,6 +3,16 @@ import React, { Component } from 'react';
 import './Note.css';
 
 export default class Note extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    handleDelete() {
+        this.props.onDelete(this.props.id);
+    }
+
     render() {
         const {
             color,
@@ -12,7 +22,7 @@ export default class Note extends Component {
 
         return (
             <div className="note" style={{ backgroundColor: color }}>
-                <span className="note__delete-icon" onClick={onDelete}> × </span>
+                <span className="note__delete-icon" onClick={this.handleDelete}> × </span>
                 {children}
             </div>
         );

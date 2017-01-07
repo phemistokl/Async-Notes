@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { deleteNote } from '../actions';
-
 import Masonry from 'react-masonry-component';
 
 import Note from './Note.jsx';
 
 import './NotesGrid.css';
 
-@connect(mapStateToProps, { deleteNote })
 export default class NotesGrid extends Component {
     render() {
+        const {
+            notes,
+            onNoteDelete
+        } = this.props;
 
         const masonryOptions = {
             columnWidth: 250,
@@ -25,12 +24,12 @@ export default class NotesGrid extends Component {
                 options={masonryOptions}
             >
                 {
-                    this.props.notes.map(note =>
+                    notes.map(note =>
                         <Note
-                            key={note.id}
-                            id={note.id}
+                            key={note._id}
+                            id={note._id}
                             color={note.color}
-                            onDelete={() => this.props.deleteNote(note.id)}
+                            onDelete={onNoteDelete}
                         >
                             {note.text}
                         </Note>
@@ -39,10 +38,4 @@ export default class NotesGrid extends Component {
             </Masonry>
         );
     }
-}
-
-function mapStateToProps(state) {
-  return {
-    notes: state
-  };
 }
