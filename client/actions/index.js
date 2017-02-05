@@ -18,13 +18,13 @@ export const loadNotes = () => dispatch => {
     .then(data => dispatch(fetchNotesSuccess(data)));
 }
 
-export const createNote = (note) => {
+export const createNote = (note) => dispatch => {
     return api.createNote(note)
     .then(() => loadNotes())
     .catch(err => console.error(err));
 }
 
-export const deleteNote = (noteId) => {
+export const deleteNote = (noteId) => dispatch => {
     return api.deleteNote(noteId)
     .then(() => loadNotes())
     .catch(err => console.error(err));
